@@ -6,8 +6,8 @@ Texture GameBoard::digitsTexture = Texture();
 
 
 GameBoard::GameBoard() {
-    for (int i = 0; i < 24; i++) {
-        for (int j = 0; j < 10; j++) {
+    for (int i = 0; i < rows + bufferRows; i++) {
+        for (int j = 0; j < columns; j++) {
             blocks[i][j] = Sprite();
         }
     }
@@ -23,13 +23,13 @@ bool GameBoard::tetrominoMoveCollides(Tetromino& tetromino, int x, int y) {
     int tetrominoXPosition = moved.getXPosition();
     int tetrominoYPosition = moved.getYPosition();
 
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
+    for (int i = 0; i < Tetromino::placementGridSize; i++) {
+        for (int j = 0; j < Tetromino::placementGridSize; j++) {
             if (moved.isBlockPresent(i, j)) {
-                if (tetrominoXPosition + i < 0 or tetrominoXPosition + i > 9 or tetrominoYPosition + j > 19) {
+                if (tetrominoXPosition + i < minColumnIndex or tetrominoXPosition + i > maxColumnIndex or tetrominoYPosition + j > maxRowIndex) {
                     return true;
                 }
-                if (blocks[4 + tetrominoYPosition + j][tetrominoXPosition + i].getTexture() != nullptr) {
+                if (blocks[bufferRows + tetrominoYPosition + j][tetrominoXPosition + i].getTexture() != nullptr) {
                     return true;
                 }
             }
@@ -45,13 +45,13 @@ bool GameBoard::tetrominoRotationCollides(Tetromino& tetromino) {
     int tetrominoXPosition = rotated.getXPosition();
     int tetrominoYPosition = rotated.getYPosition();
 
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
+    for (int i = 0; i < Tetromino::placementGridSize; i++) {
+        for (int j = 0; j < Tetromino::placementGridSize; j++) {
             if (rotated.isBlockPresent(i, j)) {
-                if (tetrominoXPosition + i < 0 or tetrominoXPosition + i > 9 or tetrominoYPosition + j > 19) {
+                if (tetrominoXPosition + i < minColumnIndex or tetrominoXPosition + i > maxColumnIndex or tetrominoYPosition + j > maxRowIndex) {
                     return true;
                 }
-                if (blocks[4 + tetrominoYPosition + j][tetrominoXPosition + i].getTexture() != nullptr) {
+                if (blocks[bufferRows + tetrominoYPosition + j][tetrominoXPosition + i].getTexture() != nullptr) {
                     return true;
                 }
             }
@@ -63,10 +63,10 @@ bool GameBoard::tetrominoRotationCollides(Tetromino& tetromino) {
 void GameBoard::addTetromino(Tetromino& tetromino) {
     int tetrominoXPosition = tetromino.getXPosition();
     int tetrominoYPosition = tetromino.getYPosition();
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
+    for (int i = 0; i < Tetromino::placementGridSize; i++) {
+        for (int j = 0; j < Tetromino::placementGridSize; j++) {
             if (tetromino.isBlockPresent(i, j)) {
-                blocks[4 + tetrominoYPosition + j][tetrominoXPosition + i] = Sprite(blocksTexture, IntRect(tetromino.getType() * 40, 0, 40, 40));
+                blocks[bufferRows + tetrominoYPosition + j][tetrominoXPosition + i] = Sprite(blocksTexture, IntRect(tetromino.getType() * spriteBlockSize, 0, spriteBlockSize, spriteBlockSize));
             }
         }
     }
@@ -80,10 +80,10 @@ void GameBoard::draw(RenderWindow& window) {
 }
 
 void GameBoard::drawBlocks(RenderWindow& window) {
-    for (int i = 0; i < 20; i++) {
-        for (int j = 0; j < 10; j++) {
-            blocks[4 + i][j].setPosition(50 + j * 40, i * 40);
-            window.draw(blocks[4 + i][j]);
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) {
+            blocks[bufferRows + i][j].setPosition(xAxisBlockDrawOffset + j * spriteBlockSize, i * spriteBlockSize);
+            window.draw(blocks[bufferRows + i][j]);
         }
     }
 }
@@ -94,8 +94,8 @@ void GameBoard::drawScore(RenderWindow& window) {
     do {
         int digit = currentCombo % 10;
         Sprite* sprite = new Sprite(digitsTexture);
-        sprite->setTextureRect(IntRect(digit * 40, 0, 40, 40));
-        sprite->setPosition(660 - offset * 40, 80);
+        sprite->setTextureRect(IntRect(digit * spriteBlockSize, 0, spriteBlockSize, spriteBlockSize));
+        sprite->setPosition(xAxisScoreDrawOffset - offset * spriteBlockSize, yAxisScoreDrawOffset);
         window.draw(*sprite);
         currentCombo /= 10;
         offset += 1;
@@ -109,8 +109,8 @@ void GameBoard::drawCombo(RenderWindow& window) {
     do {
         int digit = currentScore % 10;
         Sprite* sprite = new Sprite(digitsTexture);
-        sprite->setTextureRect(IntRect(digit * 40, 0, 40, 40));
-        sprite->setPosition(660 - offset * 40, 240);
+        sprite->setTextureRect(IntRect(digit * spriteBlockSize, 0, spriteBlockSize, spriteBlockSize));
+        sprite->setPosition(xAxisComboDrawOffset - offset * spriteBlockSize, yAxisComboDrawOffset);
         window.draw(*sprite);
         currentScore /= 10;
         offset += 1;
@@ -124,8 +124,8 @@ void GameBoard::drawLinesCount(RenderWindow& window) {
     do {
         int digit = currentLines % 10;
         Sprite* sprite = new Sprite(digitsTexture);
-        sprite->setTextureRect(IntRect(digit * 40, 0, 40, 40));
-        sprite->setPosition(660 - offset * 40, 400);
+        sprite->setTextureRect(IntRect(digit * spriteBlockSize, 0, spriteBlockSize, spriteBlockSize));
+        sprite->setPosition(xAxisLinesCountDrawOffset - offset * spriteBlockSize, yAxisLinesCountDrawOffset);
         window.draw(*sprite);
         currentLines /= 10;
         offset += 1;
@@ -140,10 +140,10 @@ void GameBoard::resetComboCounter() {
 void GameBoard::checkRows(bool resetCombo) {
     int rows = 0;
     bool fullRow;
-    for (int i = 19; i > -1; i--) {
+    for (int i = maxRowIndex; i >= minRowIndex; i--) {
         fullRow = true;
-        for (int j = 0; j < 10; j++) {
-            if (blocks[4 + i][j].getTexture() == nullptr) {
+        for (int j = minColumnIndex; j <= maxColumnIndex; j++) {
+            if (blocks[bufferRows + i][j].getTexture() == nullptr) {
                 fullRow = false;
             }
         }
@@ -157,23 +157,23 @@ void GameBoard::checkRows(bool resetCombo) {
     switch (rows)
     {
     case 1:
-        score += 10;
+        score += singleLineScore;
         break;
     case 2:
-        score += 30;
+        score += doubleLineScore;
         break;
     case 3:
-        score += 50;
+        score += tripleLineScore;
         break;
     case 4:
-        score += 80;
+        score += tetrisScore;
         break;
     default:
         break;
     }
 
     for (int i = 0; i < rows; i++) {
-        score += comboCounter * 5;
+        score += comboCounter * comboScoreMultiplier;
         comboCounter += 1;
     }
 
@@ -185,13 +185,13 @@ void GameBoard::checkRows(bool resetCombo) {
 }
 
 void GameBoard::deleteRow(int rowIndex) {
-    for (int j = 0; j < 10; j++) {
-        blocks[4 + rowIndex][j] = Sprite();
+    for (int j = minColumnIndex; j <= maxColumnIndex; j++) {
+        blocks[bufferRows + rowIndex][j] = Sprite();
     }
 
-    for (int i = rowIndex; i > 0; i--) {
-        for (int j = 0; j < 10; j++) {
-            blocks[4 + i][j] = blocks[4 + i - 1][j];
+    for (int i = rowIndex; i > minRowIndex; i--) {
+        for (int j = minColumnIndex; j <= maxColumnIndex; j++) {
+            blocks[bufferRows + i][j] = blocks[bufferRows + i - 1][j];
         }
     }
 }
@@ -201,21 +201,21 @@ bool GameBoard::checkGameOver(Tetromino& tetromino) {
 }
 
 bool GameBoard::checkGameWon() {
-    return score >= 99999;
+    return score >= maxScore;
 }
 
 void GameBoard::pause() {
-    for (int i = 0; i < 20; i++) {
-        for (int j = 0; j < 10; j++) {
-            blocks[4 + i][j].setColor(sf::Color(255, 255, 255, 128));
+    for (int i = minRowIndex; i <= maxRowIndex; i++) {
+        for (int j = minColumnIndex; j <= maxRowIndex; j++) {
+            blocks[bufferRows + i][j].setColor(sf::Color(255, 255, 255, 128));
         }
     }
 }
 
 void GameBoard::unpause() {
-    for (int i = 0; i < 20; i++) {
-        for (int j = 0; j < 10; j++) {
-            blocks[4 + i][j].setColor(sf::Color(255, 255, 255, 255));
+    for (int i = minRowIndex; i <= maxRowIndex; i++) {
+        for (int j = minColumnIndex; j <= maxRowIndex; j++) {
+            blocks[bufferRows + i][j].setColor(sf::Color(255, 255, 255, 255));
         }
     }
 }

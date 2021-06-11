@@ -7,9 +7,27 @@ using namespace sf;
 
 class GameBoard {
 protected:
-    static constexpr int rows = 20;
-    static constexpr int bufferRows = 4;
-    static constexpr int columns = 10;
+    static constexpr int rows{ 20 };
+    static constexpr int bufferRows{ 4 };
+    static constexpr int columns{ 10 };
+    static constexpr int minRowIndex{ 0 };
+    static constexpr int maxRowIndex{ 19 };
+    static constexpr int minColumnIndex{ 0 };
+    static constexpr int maxColumnIndex{ 9 };
+    static constexpr int spriteBlockSize{ 40 };
+    static constexpr int xAxisBlockDrawOffset{ 50 };
+    static constexpr int xAxisScoreDrawOffset{ 660 };
+    static constexpr int yAxisScoreDrawOffset{ 80 };
+    static constexpr int xAxisComboDrawOffset{ 660 };
+    static constexpr int yAxisComboDrawOffset{ 240 };
+    static constexpr int xAxisLinesCountDrawOffset{ 660 };
+    static constexpr int yAxisLinesCountDrawOffset{ 400 };
+    static constexpr int singleLineScore{ 10 };
+    static constexpr int doubleLineScore{ 30 };
+    static constexpr int tripleLineScore{ 50 };
+    static constexpr int tetrisScore{ 80 };
+    static constexpr int comboScoreMultiplier{ 5 };
+    static constexpr int maxScore{ 99999 };
     
     Sprite blocks[rows + bufferRows][columns];
     int score;

@@ -4,10 +4,15 @@
 using namespace sf;
 
 class Tetromino {
-protected:
-    static constexpr int numberOfBlocks{ 4 };
+public:
     static constexpr int placementGridSize{ 4 };
     static constexpr int totalBlockTypes{ 7 };
+    static constexpr int initialXposition{ 3 };
+    static constexpr int initialYposition{ -2 };
+protected:
+    static constexpr int numberOfBlocks{ 4 };
+    static constexpr int spriteBlockSize{ 40 };
+    static constexpr int xAxisDrawOffset{ 50 };
     static constexpr int types[totalBlockTypes][placementGridSize][placementGridSize]
      { {{0, 0, 0, 0},
         {1, 1, 1, 1},
