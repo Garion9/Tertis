@@ -33,4 +33,39 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="openal32.dll" />
+    <None Include="sfml-audio-2.dll" />
+    <None Include="sfml-graphics-2.dll" />
+    <None Include="sfml-system-2.dll" />
+    <None Include="sfml-window-2.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\blocks.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\digits.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\frame.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\game_over_screen.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\game_won_screen.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\paused.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\title_screen.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resources\tertis_theme.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+  </ItemGroup>
 </Project>

@@ -251,31 +251,25 @@ int main()
 {
     RenderWindow window(VideoMode(710, 850), "Tertis", Style::Titlebar | Style::Close);
 
-    GameState gameState = GameState::GameWon;
+    GameState gameState = GameState::TitleScreen;
 
     while (gameState != GameState::Exit) {
         switch (gameState)
         {
         case GameState::TitleScreen:
-            std::cout << "Title screen!\n";
             gameState = titleScreen(window);
             break;
         case GameState::Playing:
-            std::cout << "Play the game!\n";
             gameState = playTertis(window);
             break;
         case GameState::GameOver:
-            std::cout << "Game Over!\n";
             gameState = gameOverScreen(window);
             break;
         case GameState::GameWon:
-            std::cout << "Game Won!\n";
             gameState = gameWonScreen(window);
             break;
         }
     }
-
-    std::cout << "Exiting...\n";
 
     window.close();
 }

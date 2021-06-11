@@ -155,6 +155,25 @@
     <ClInclude Include="GameBoard.h" />
     <ClInclude Include="Tetromino.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="openal32.dll" />
+    <None Include="sfml-audio-2.dll" />
+    <None Include="sfml-graphics-2.dll" />
+    <None Include="sfml-system-2.dll" />
+    <None Include="sfml-window-2.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\blocks.png" />
+    <Image Include="Resources\digits.png" />
+    <Image Include="Resources\frame.png" />
+    <Image Include="Resources\game_over_screen.png" />
+    <Image Include="Resources\game_won_screen.png" />
+    <Image Include="Resources\paused.png" />
+    <Image Include="Resources\title_screen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resources\tertis_theme.wav" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
