@@ -4,13 +4,12 @@
 Texture Tetromino::texture = Texture();
 
 
-Tetromino::Tetromino(int type, bool active, int x, int y) {
+Tetromino::Tetromino(int type, int x, int y) {
     for (int i = 0; i < 4; i++) {
         Sprite sprite = Sprite(texture);
         sprite.setTextureRect(IntRect(type * 40, 0, 40, 40));
         blocks[i] = sprite;
     }
-    active = active;
     xPosition = x;
     yPosition = y;
     std::copy(&Tetromino::types[type][0][0], &Tetromino::types[type][0][0] + 16, &blockPlacements[0][0]);
@@ -22,7 +21,6 @@ Tetromino::Tetromino(const Tetromino& tetromino) {
         Sprite sprite = Sprite(texture, IntRect(tetromino.type * 40, 0, 40, 40));
         blocks[i] = sprite;
     }
-    active = tetromino.active;
     xPosition = tetromino.xPosition;
     yPosition = tetromino.yPosition;
     for (int i = 0; i < 4; i++) {
@@ -48,10 +46,6 @@ bool Tetromino::isBlockPresent(int x, int y) {
     if (blockPlacements[y][x] == 1) return true;
     else return false;
 }
-
-void Tetromino::setInactive() { active = false; }
-
-bool Tetromino::isActive() { return active; }
 
 void Tetromino::rotate() {
     if (type != 3) {

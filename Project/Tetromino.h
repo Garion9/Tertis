@@ -48,13 +48,12 @@ protected:
     int blockPlacements[placementGridSize][placementGridSize];
     int xPosition;
     int yPosition;
-    bool active;
     int type;
 
     static Texture texture;
 
 public:
-    Tetromino(int type, bool active, int x, int y);
+    Tetromino(int type, int x, int y);
 
     Tetromino(const Tetromino& tetromino);
 
@@ -67,10 +66,6 @@ public:
     int getType();
 
     bool isBlockPresent(int x, int y);
-
-    void setInactive();
-
-    bool isActive();
 
     void rotate();
 

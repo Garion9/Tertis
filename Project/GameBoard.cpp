@@ -27,11 +27,9 @@ bool GameBoard::tetrominoMoveCollides(Tetromino& tetromino, int x, int y) {
         for (int j = 0; j < 4; j++) {
             if (moved.isBlockPresent(i, j)) {
                 if (tetrominoXPosition + i < 0 or tetrominoXPosition + i > 9 or tetrominoYPosition + j > 19) {
-                    if (y > 0) tetromino.setInactive();
                     return true;
                 }
                 if (blocks[4 + tetrominoYPosition + j][tetrominoXPosition + i].getTexture() != nullptr) {
-                    if (y > 0) tetromino.setInactive();
                     return true;
                 }
             }
@@ -72,8 +70,6 @@ void GameBoard::addTetromino(Tetromino& tetromino) {
             }
         }
     }
-
-    tetromino.setInactive();
 }
 
 void GameBoard::draw(RenderWindow& window) {

@@ -71,7 +71,7 @@ GameState playTertis(RenderWindow& window) {
     GameBoard gameBoard = GameBoard();
 
     int tetrominoType = rand() % 7;
-    Tetromino tetromino = Tetromino(tetrominoType, true, 3, -2);
+    Tetromino tetromino = Tetromino(tetrominoType, 3, -2);
 
     int move = 0;
     bool rotate = false;
@@ -100,13 +100,13 @@ GameState playTertis(RenderWindow& window) {
                 else if (event.key.code == Keyboard::Right) move = 1;
                 else if (event.key.code == Keyboard::Down) delay = 0.05;
                 else if (event.key.code == Keyboard::Space and !paused) {
-                    while (tetromino.isActive() and !gameBoard.tetrominoMoveCollides(tetromino, 0, 1)) {
+                    while (!gameBoard.tetrominoMoveCollides(tetromino, 0, 1)) {
                         tetromino.changePosition(0, 1);
                     }
                     gameBoard.addTetromino(tetromino);
                     gameBoard.checkRows(true);
                     int tetrominoType = rand() % 7;
-                    tetromino = Tetromino(tetrominoType, true, 3, -2);
+                    tetromino = Tetromino(tetrominoType, 3, -2);
                     gameOver = gameBoard.checkGameOver(tetromino);
                 }
                 else if (event.key.code == Keyboard::Escape) {
@@ -144,7 +144,7 @@ GameState playTertis(RenderWindow& window) {
                 gameBoard.addTetromino(tetromino);
                 gameBoard.checkRows(true);
                 int tetrominoType = rand() % 7;
-                tetromino = Tetromino(tetrominoType, true, 3, -2);
+                tetromino = Tetromino(tetrominoType, 3, -2);
                 gameOver = gameBoard.checkGameOver(tetromino);
             }
 
