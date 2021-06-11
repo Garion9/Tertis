@@ -148,7 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameBoard.cpp" />
-    <ClCompile Include="Tertis.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Tetromino.cpp" />
   </ItemGroup>
   <ItemGroup>
