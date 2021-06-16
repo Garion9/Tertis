@@ -16,7 +16,7 @@ GameBoard::GameBoard() {
     linesCleared = 0;
 }
 
-bool GameBoard::tetrominoMoveCollides(Tetromino& tetromino, int x, int y) {
+bool GameBoard::tetrominoMoveCollides(Tetromino& tetromino, int x, int y) const {
     Tetromino moved = Tetromino(tetromino);
     moved.changePosition(x, y);
 
@@ -38,7 +38,7 @@ bool GameBoard::tetrominoMoveCollides(Tetromino& tetromino, int x, int y) {
     return false;
 }
 
-bool GameBoard::tetrominoRotationCollides(Tetromino& tetromino) {
+bool GameBoard::tetrominoRotationCollides(Tetromino& tetromino) const {
     Tetromino rotated = Tetromino(tetromino);
     rotated.rotate();
 
@@ -196,11 +196,11 @@ void GameBoard::deleteRow(int rowIndex) {
     }
 }
 
-bool GameBoard::checkGameOver(Tetromino& tetromino) {
+bool GameBoard::checkGameOver(Tetromino& tetromino) const {
     return tetrominoMoveCollides(tetromino, 0, 0);
 }
 
-bool GameBoard::checkGameWon() {
+bool GameBoard::checkGameWon() const {
     return score >= maxScore;
 }
 

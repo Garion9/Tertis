@@ -36,13 +36,13 @@ void Tetromino::changePosition(int x, int y) {
     yPosition += y;
 }
 
-int Tetromino::getXPosition() { return xPosition; }
+int Tetromino::getXPosition() const { return xPosition; }
 
-int Tetromino::getYPosition() { return yPosition; }
+int Tetromino::getYPosition() const { return yPosition; }
 
-int Tetromino::getType() { return type; }
+int Tetromino::getType() const { return type; }
 
-bool Tetromino::isBlockPresent(int x, int y) {
+bool Tetromino::isBlockPresent(int x, int y) const {
     if (blockPlacements[y][x] == 1) return true;
     else return false;
 }

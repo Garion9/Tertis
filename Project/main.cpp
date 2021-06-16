@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <time.h>
+#include <Windows.h>
 
 #include "Tetromino.h"
 #include "GameBoard.h"
@@ -55,6 +56,7 @@ GameState playTertis(RenderWindow& window) {
     music.play();
 
     srand(time(NULL));
+
     Tetromino::setTexture("Resources/blocks.png");
     GameBoard::setTextures("Resources/blocks.png", "Resources/digits.png");
 
@@ -67,16 +69,15 @@ GameState playTertis(RenderWindow& window) {
     Sprite pausedLabel(*pauseTexture);
     pausedLabel.setPosition(268, 300);
 
-
-    GameBoard gameBoard = GameBoard();
+    GameBoard* gameBoard = new GameBoard();
 
     int tetrominoType = rand() % Tetromino::totalBlockTypes;
-    Tetromino tetromino = Tetromino(tetrominoType, Tetromino::initialXposition, Tetromino::initialYposition);
+    Tetromino* tetromino = new Tetromino(tetrominoType, Tetromino::initialXposition, Tetromino::initialYposition);
 
     int xMove = 0;
     bool rotate = false;
     float timer = 0;
-    float delay = 1.0;
+    double delay = 1.0;
     bool paused = false;
     bool  gameOver = false;
     bool gameWon = false;
@@ -100,54 +101,54 @@ GameState playTertis(RenderWindow& window) {
                 else if (event.key.code == Keyboard::Right) xMove = 1;
                 else if (event.key.code == Keyboard::Down) delay = 0.05;
                 else if (event.key.code == Keyboard::Space and !paused) {
-                    while (!gameBoard.tetrominoMoveCollides(tetromino, 0, 1)) {
-                        tetromino.changePosition(0, 1);
+                    while (!gameBoard->tetrominoMoveCollides(*tetromino, 0, 1)) {
+                        tetromino->changePosition(0, 1);
                     }
-                    gameBoard.addTetromino(tetromino);
-                    gameBoard.checkRows(true);
+                    gameBoard->addTetromino(*tetromino);
+                    gameBoard->checkRows(true);
                     int tetrominoType = rand() % Tetromino::totalBlockTypes;
-                    tetromino = Tetromino(tetrominoType, Tetromino::initialXposition, Tetromino::initialYposition);
-                    gameOver = gameBoard.checkGameOver(tetromino);
-                    gameWon = gameBoard.checkGameWon();
+                    tetromino = new Tetromino(tetrominoType, Tetromino::initialXposition, Tetromino::initialYposition);
+                    gameOver = gameBoard->checkGameOver(*tetromino);
+                    gameWon = gameBoard->checkGameWon();
                 }
                 else if (event.key.code == Keyboard::Escape) {
                     paused = !paused;
                     if (paused) {
                         music.pause();
-                        tetromino.pause();
-                        gameBoard.pause();
+                        tetromino->pause();
+                        gameBoard->pause();
                         frame.setColor(sf::Color(255, 255, 255, 128));
                     }
                     else {
                         music.play();
-                        tetromino.unpause();
-                        gameBoard.unpause();
+                        tetromino->unpause();
+                        gameBoard->unpause();
                         frame.setColor(sf::Color(255, 255, 255, 255));
                     }
                 }
             }
         }
 
-        if (!paused and xMove != 0 and !gameBoard.tetrominoMoveCollides(tetromino, xMove, 0)) {
-            tetromino.changePosition(xMove, 0);
+        if (!paused and xMove != 0 and !gameBoard->tetrominoMoveCollides(*tetromino, xMove, 0)) {
+            tetromino->changePosition(xMove, 0);
         }
 
-        if (!paused and rotate and !gameBoard.tetrominoRotationCollides(tetromino)) {
-            tetromino.rotate();
+        if (!paused and rotate and !gameBoard->tetrominoRotationCollides(*tetromino)) {
+            tetromino->rotate();
         }
 
         if (!paused and timer > delay) {
-            if (!gameBoard.tetrominoMoveCollides(tetromino, 0, 1)) {
-                tetromino.changePosition(0, 1);
-                gameBoard.checkRows(false);
+            if (!gameBoard->tetrominoMoveCollides(*tetromino, 0, 1)) {
+                tetromino->changePosition(0, 1);
+                gameBoard->checkRows(false);
             }
             else {
-                gameBoard.addTetromino(tetromino);
-                gameBoard.checkRows(true);
+                gameBoard->addTetromino(*tetromino);
+                gameBoard->checkRows(true);
                 int tetrominoType = rand() % Tetromino::totalBlockTypes;
-                tetromino = Tetromino(tetrominoType, Tetromino::initialXposition, Tetromino::initialYposition);
-                gameOver = gameBoard.checkGameOver(tetromino);
-                gameWon = gameBoard.checkGameWon();
+                tetromino = new Tetromino(tetrominoType, Tetromino::initialXposition, Tetromino::initialYposition);
+                gameOver = gameBoard->checkGameOver(*tetromino);
+                gameWon = gameBoard->checkGameWon();
             }
 
             timer = 0;
@@ -159,8 +160,8 @@ GameState playTertis(RenderWindow& window) {
 
         window.clear(Color::Black);
         window.draw(frame);
-        tetromino.draw(window);
-        gameBoard.draw(window);
+        tetromino->draw(window);
+        gameBoard->draw(window);
         if (paused) window.draw(pausedLabel);
         window.display();
 

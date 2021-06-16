@@ -64,13 +64,13 @@ public:
 
     void changePosition(int x, int y);
 
-    int getXPosition();
+    int getXPosition() const;
 
-    int getYPosition();
+    int getYPosition() const;
 
-    int getType();
+    int getType() const;
 
-    bool isBlockPresent(int x, int y);
+    bool isBlockPresent(int x, int y) const;
 
     void rotate();
 

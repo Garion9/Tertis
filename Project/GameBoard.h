@@ -39,9 +39,9 @@ protected:
 public:
     GameBoard();
 
-    bool tetrominoMoveCollides(Tetromino& tetromino, int x, int y);
+    bool tetrominoMoveCollides(Tetromino& tetromino, int x, int y) const;
 
-    bool tetrominoRotationCollides(Tetromino& tetromino);
+    bool tetrominoRotationCollides(Tetromino& tetromino) const;
 
     void addTetromino(Tetromino& tetromino);
 
@@ -61,9 +61,9 @@ public:
 
     void deleteRow(int rowIndex);
 
-    bool checkGameOver(Tetromino& tetromino);
+    bool checkGameOver(Tetromino& tetromino) const;
 
-    bool checkGameWon();
+    bool checkGameWon() const;
 
     void pause();
 
